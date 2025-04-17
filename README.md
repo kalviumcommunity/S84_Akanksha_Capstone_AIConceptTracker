@@ -59,4 +59,18 @@ Capstone projects are complex and time-sensitive. Tracking which concepts are co
 
 
 
+---
 
+## 📅 Daily Plan (Week 1)
+
+| Day | Task                                                                 |
+|-----|----------------------------------------------------------------------|
+| 1   | 🧠 Planning, ✍️ Low-Fidelity Designs, 🧱 Backend setup               |
+| 2   | 🔐 User Auth (Register/Login), 🧾 JWT, 🧠 API doc (Bruno)            |
+| 3   | ⚛️ React Setup, Login/Register forms, 📡 Connect to backend         |
+| 4   | 🗃️ Concept Proof Schema + API, 🧩 Task planner backend              |
+| 5   | 🖥️ Frontend UI for Dashboard + Concept Entry                        |
+| 6   | 🧪 Testing basic features, 🐞 Debugging                              |
+| 7   | 🚀 Deploy to Vercel/Render, 🎬 Record walkthrough video             |
+
+---
