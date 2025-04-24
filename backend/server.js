@@ -1,7 +1,8 @@
 const express=require('express');
 const mongoose=require('mongoose');
-const User=require('./models/userSchema');
-const Concept=require('./models/conceptSchema');
+const conceptRoutes=require('./routes/conceptroutes');
+const userRoutes=require('./routes/userroutes');
+
 
 const cors=require('cors');
 require('dotenv').config();
@@ -12,6 +13,10 @@ app.use(express.json());
 mongoose.connect(process.env.MONGO_URI)
     .then(()=>console.log("Connected to database")) 
     .catch((error)=>console.error("Failed to connect to database:",error));
+
+
+app.use('/concepts',conceptRoutes);
+app.use('/users',userRoutes);
 
 app.get("/",(req,res)=>res.send({message:"Server is running"}));
 app.listen(port,()=>{
