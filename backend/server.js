@@ -1,24 +1,24 @@
-const express=require('express');
-const mongoose=require('mongoose');
-const conceptRoutes=require('./routes/conceptroutes');
-const userRoutes=require('./routes/userroutes');
+const express = require("express");
+const mongoose = require("mongoose");
 
+const conceptRoutes = require("./routes/conceptroutes");
+const userRoutes = require("./routes/userroutes");
 
-const cors=require('cors');
-require('dotenv').config();
-const app=express();
-const port=process.env.PORT || 3000;
+const cors = require("cors");
+require("dotenv").config();
+const app = express();
+const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
-mongoose.connect(process.env.MONGO_URI)
-    .then(()=>console.log("Connected to database")) 
-    .catch((error)=>console.error("Failed to connect to database:",error));
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log("Connected to database"))
+  .catch((error) => console.error("Failed to connect to database:", error));
 
+app.use("/concepts", conceptRoutes);
+app.use("/users", userRoutes);
 
-app.use('/concepts',conceptRoutes);
-app.use('/users',userRoutes);
-
-app.get("/",(req,res)=>res.send({message:"Server is running"}));
-app.listen(port,()=>{
-    console.log(`Server is running on port http://localhost:${port}`)
+app.get("/", (req, res) => res.send({ message: "Server is running" }));
+app.listen(port, () => {
+  console.log(`Server is running on port http://localhost:${port}`);
 });
