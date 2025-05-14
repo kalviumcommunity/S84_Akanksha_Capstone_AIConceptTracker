@@ -55,5 +55,6 @@ Capstone projects are complex and time-sensitive. Tracking which concepts are co
 
 ---
 
+Created Frontend and initialized react.
 Render Deployment link:
 https://s84-akanksha-capstone-aiconcepttracker-9.onrender.com
