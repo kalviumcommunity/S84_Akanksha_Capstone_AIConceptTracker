@@ -1,4 +1,3 @@
-// filepath: /home/akanksha/Desktop/kalvium/S84_Akanksha_Capstone_AIConceptTracker/frontend/src/components/ConceptItem.jsx
 import React from "react";
 
 function ConceptItem({ concept }) {
