@@ -4,9 +4,22 @@ const Concept = require("../models/conceptSchema");
 const mongoose = require("mongoose"); // For ObjectId validation
 const upload = require("../middleware/upload");
 const path = require("path");
+const { authenticateToken } = require("../middleware/auth");
+
+// Get all concepts (protected route)
+router.get("/", authenticateToken, async (req, res) => {
+  try {
+    const concepts = await Concept.find().populate("userId", "name email");
+    res.json(concepts);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "Failed to fetch concepts", details: error.message });
+  }
+});
 
 // Get all concepts and populate user details
-router.get("/user/:userId", async (req, res) => {
+router.get("/user/:userId", authenticateToken, async (req, res) => {
   try {
     const concepts = await Concept.find().populate("userId", "name email");
     res.json(concepts);
@@ -18,7 +31,7 @@ router.get("/user/:userId", async (req, res) => {
 });
 
 // Get a single concept by ID and populate user details
-router.get("/:id", async (req, res) => {
+router.get("/:id", authenticateToken, async (req, res) => {
   try {
     const concept = await Concept.findById(req.params.id).populate(
       "userId",
@@ -27,6 +40,7 @@ router.get("/:id", async (req, res) => {
     if (!concept) {
       return res.status(404).json({ error: "Concept not found" });
     }
+    res.json(concept);
   } catch (error) {
     res
       .status(500)
@@ -34,8 +48,8 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Create a new concept
-router.post("/", async (req, res) => {
+// Create a new concept (protected route)
+router.post("/", authenticateToken, async (req, res) => {
   const { title, description, status, userId } = req.body;
 
   // Check if required fields are provided
@@ -63,8 +77,8 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Update an existing concept by ID
-router.put("/:id", async (req, res) => {
+// Update an existing concept by ID (protected route)
+router.put("/:id", authenticateToken, async (req, res) => {
   const { title, description, status } = req.body;
   try {
     const updatedConcept = await Concept.findByIdAndUpdate(
@@ -88,8 +102,8 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// Upload file to a concept
-router.post("/:id/upload", upload.single("file"), async (req, res) => {
+// Upload file to a concept (protected route)
+router.post("/:id/upload", authenticateToken, upload.single("file"), async (req, res) => {
   try {
     const conceptId = req.params.id;
 
@@ -143,8 +157,8 @@ router.get("/files/:filename", (req, res) => {
   });
 });
 
-// Delete file from concept
-router.delete("/:id/files/:filename", async (req, res) => {
+// Delete file from concept (protected route)
+router.delete("/:id/files/:filename", authenticateToken, async (req, res) => {
   try {
     const conceptId = req.params.id;
     const filename = req.params.filename;

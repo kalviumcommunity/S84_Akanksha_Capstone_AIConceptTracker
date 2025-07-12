@@ -7,8 +7,8 @@ const { authenticateToken } = require("../middleware/auth");
 
 // Generate JWT token
 const generateToken = (userId) => {
-  return jwt.sign({ userId }, process.env.JWT_SECRET || 'fallback-secret', {
-    expiresIn: '7d',
+  return jwt.sign({ userId }, process.env.JWT_SECRET || "fallback-secret", {
+    expiresIn: "7d",
   });
 };
 
@@ -19,17 +19,23 @@ router.post("/register", async (req, res) => {
 
     // Validate input
     if (!name || !email || !password) {
-      return res.status(400).json({ error: "Name, email, and password are required" });
+      return res
+        .status(400)
+        .json({ error: "Name, email, and password are required" });
     }
 
     if (password.length < 6) {
-      return res.status(400).json({ error: "Password must be at least 6 characters long" });
+      return res
+        .status(400)
+        .json({ error: "Password must be at least 6 characters long" });
     }
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).json({ error: "User already exists with this email" });
+      return res
+        .status(400)
+        .json({ error: "User already exists with this email" });
     }
 
     // Create new user (password will be hashed by the schema pre-save hook)
@@ -49,7 +55,9 @@ router.post("/register", async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ error: "Failed to register user", details: error.message });
+    res
+      .status(500)
+      .json({ error: "Failed to register user", details: error.message });
   }
 });
 
@@ -104,7 +112,9 @@ router.get("/profile", authenticateToken, async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch profile", details: error.message });
+    res
+      .status(500)
+      .json({ error: "Failed to fetch profile", details: error.message });
   }
 });
 
@@ -114,7 +124,9 @@ router.get("/", authenticateToken, async (req, res) => {
     const users = await User.find().select("-password");
     res.status(200).json(users);
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch users", details: error.message });
+    res
+      .status(500)
+      .json({ error: "Failed to fetch users", details: error.message });
   }
 });
 
@@ -129,7 +141,9 @@ router.put("/:id", authenticateToken, async (req, res) => {
 
   // Check if user is updating their own profile
   if (req.user._id.toString() !== req.params.id) {
-    return res.status(403).json({ error: "You can only update your own profile" });
+    return res
+      .status(403)
+      .json({ error: "You can only update your own profile" });
   }
 
   // Only require name and email
@@ -142,7 +156,9 @@ router.put("/:id", authenticateToken, async (req, res) => {
     if (typeof age !== "undefined") updatedData.age = age;
     if (password) {
       if (password.length < 6) {
-        return res.status(400).json({ error: "Password must be at least 6 characters long" });
+        return res
+          .status(400)
+          .json({ error: "Password must be at least 6 characters long" });
       }
       updatedData.password = password; // Will be hashed by the schema pre-save hook
     }
@@ -151,7 +167,7 @@ router.put("/:id", authenticateToken, async (req, res) => {
       req.params.id,
       updatedData,
       { new: true, runValidators: true }
-    ).select('-password');
+    ).select("-password");
 
     if (!updatedUser) {
       return res.status(404).json({ error: "User not found" });
@@ -167,7 +183,9 @@ router.put("/:id", authenticateToken, async (req, res) => {
       },
     });
   } catch (error) {
-    res.status(500).json({ error: "Failed to update user", details: error.message });
+    res
+      .status(500)
+      .json({ error: "Failed to update user", details: error.message });
   }
 });
 

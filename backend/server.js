@@ -17,12 +17,14 @@ app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 mongoose
-  .connect(process.env.MONGO_URI || "mongodb://localhost:27017/ai-concept-tracker")
+  .connect(
+    process.env.MONGO_URI || "mongodb://localhost:27017/ai-concept-tracker"
+  )
   .then(() => console.log("Connected to database"))
   .catch((error) => console.error("Failed to connect to database:", error));
 
-app.use("/concepts", conceptRoutes);
-app.use("/users", userRoutes);
+app.use("/api/concepts", conceptRoutes);
+app.use("/api/users", userRoutes);
 
 app.get("/", (req, res) => res.send({ message: "Server is running" }));
 
