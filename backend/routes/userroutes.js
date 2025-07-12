@@ -46,7 +46,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Update an existing user
 router.put("/:id", async (req, res) => {
   const { name, email, age, password } = req.body;
 
@@ -55,14 +54,14 @@ router.put("/:id", async (req, res) => {
     return res.status(400).json({ error: "Invalid user ID" });
   }
 
-  // Check if required fields are provided
-  if (!name || !email || !age) {
-    return res.status(400).json({ error: "Name, email, and age are required" });
+  // Only require name and email
+  if (!name || !email) {
+    return res.status(400).json({ error: "Name and email are required" });
   }
 
   try {
-    // If password is being updated, hash the new password
-    let updatedData = { name, email, age };
+    let updatedData = { name, email };
+    if (typeof age !== "undefined") updatedData.age = age;
     if (password) {
       const hashedPassword = await bcrypt.hash(password, 10);
       updatedData.password = hashedPassword;
@@ -93,5 +92,4 @@ router.put("/:id", async (req, res) => {
       .json({ error: "Failed to update user", details: error.message });
   }
 });
-
 module.exports = router;
