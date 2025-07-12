@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const path = require("path");
 
 const conceptRoutes = require("./routes/conceptroutes");
 const userRoutes = require("./routes/userroutes");
@@ -10,6 +11,10 @@ const app = express();
 const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
+
+// Serve uploaded files statically
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("Connected to database"))
