@@ -6,11 +6,7 @@ function ConceptList({ concepts, onFileUploaded }) {
   if (Array.isArray(concepts)) {
     concepts.forEach((c) => {
       items.push(
-        <ConceptItem 
-          key={c._id} 
-          concept={c} 
-          onFileUploaded={onFileUploaded}
-        />
+        <ConceptItem key={c._id} concept={c} onFileUploaded={onFileUploaded} />
       );
     });
   }
@@ -18,7 +14,9 @@ function ConceptList({ concepts, onFileUploaded }) {
   return (
     <div>
       <h2>My AI Concepts</h2>
-      {items.length > 0 ? items : (
+      {items.length > 0 ? (
+        items
+      ) : (
         <p style={{ color: "#666", fontStyle: "italic" }}>
           No concepts tracked yet. Add some!
         </p>

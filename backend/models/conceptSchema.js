@@ -17,17 +17,19 @@ const conceptSchema = new mongoose.Schema({
     required: false, // Make it optional for now
   },
   // Add file upload fields
-  attachments: [{
-    filename: String,
-    originalName: String,
-    mimetype: String,
-    size: Number,
-    url: String,
-    uploadDate: {
-      type: Date,
-      default: Date.now
-    }
-  }]
+  attachments: [
+    {
+      filename: String,
+      originalName: String,
+      mimetype: String,
+      size: Number,
+      url: String,
+      uploadDate: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
 });
 
 const Concept = mongoose.model("Concept", conceptSchema);

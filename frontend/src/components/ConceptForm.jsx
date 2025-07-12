@@ -50,6 +50,8 @@ function ConceptForm({ onSubmit }) {
           border: "1px solid #ccc",
           borderRadius: "4px",
           fontSize: "14px",
+          color: "#000000",
+          backgroundColor: "#ffffff",
         }}
       />
       <input
@@ -63,6 +65,8 @@ function ConceptForm({ onSubmit }) {
           border: "1px solid #ccc",
           borderRadius: "4px",
           fontSize: "14px",
+          color: "#000000",
+          backgroundColor: "#ffffff",
         }}
       />
       <input
@@ -76,6 +80,8 @@ function ConceptForm({ onSubmit }) {
           border: "1px solid #ccc",
           borderRadius: "4px",
           fontSize: "14px",
+          color: "#000000",
+          backgroundColor: "#ffffff",
         }}
       />
       <button
