@@ -44,10 +44,13 @@ function App() {
   const handleFileUploaded = (conceptId, fileInfo) => {
     console.log("File uploaded to concept:", conceptId, fileInfo);
     // Refresh concepts to show updated attachments
-    setConcepts(prev => 
-      prev.map(concept => 
-        concept._id === conceptId 
-          ? { ...concept, attachments: [...(concept.attachments || []), fileInfo] }
+    setConcepts((prev) =>
+      prev.map((concept) =>
+        concept._id === conceptId
+          ? {
+              ...concept,
+              attachments: [...(concept.attachments || []), fileInfo],
+            }
           : concept
       )
     );
@@ -56,11 +59,18 @@ function App() {
   return (
     <>
       <Navbar />
-      <div style={{ padding: "20px" }}>
-        <h2>Add Concept</h2>
+      <div
+        style={{
+          padding: "20px",
+          color: "#000000",
+          backgroundColor: "#ffffff",
+          minHeight: "100vh",
+        }}
+      >
+        <h2 style={{ color: "#000000" }}>Add Concept</h2>
         <ConceptForm onSubmit={handleAddConcept} />
-        <ConceptList 
-          concepts={Array.isArray(concepts) ? concepts : []} 
+        <ConceptList
+          concepts={Array.isArray(concepts) ? concepts : []}
           onFileUploaded={handleFileUploaded}
         />
       </div>

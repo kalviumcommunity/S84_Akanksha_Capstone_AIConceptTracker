@@ -15,47 +15,53 @@ function ConceptItem({ concept, onFileUploaded }) {
         margin: "10px 0",
         border: "1px solid #ddd",
         borderRadius: "8px",
-        backgroundColor: "#f9f9f9"
+        backgroundColor: "#ffffff",
+        color: "#000000",
       }}
     >
-      <h3>{concept.title}</h3>
-      <p>{concept.description}</p>
-      <p>
+      <h3 style={{ color: "#000000" }}>{concept.title}</h3>
+      <p style={{ color: "#000000" }}>{concept.description}</p>
+      <p style={{ color: "#000000" }}>
         <em>Status:</em> {concept.status}
       </p>
-      
+
       {/* File Upload Section */}
       <div style={{ marginTop: "15px" }}>
-        <h4 style={{ margin: "10px 0 5px 0", fontSize: "14px" }}>Attachments:</h4>
-        <FileUpload conceptId={concept._id} onFileUploaded={handleFileUploaded} />
-        
+        <h4 style={{ margin: "10px 0 5px 0", fontSize: "14px" }}>
+          Attachments:
+        </h4>
+        <FileUpload
+          conceptId={concept._id}
+          onFileUploaded={handleFileUploaded}
+        />
+
         {/* Show existing files */}
         {concept.attachments && concept.attachments.length > 0 && (
           <div style={{ marginTop: "10px" }}>
             {concept.attachments.map((file, index) => (
-              <div 
-                key={index} 
-                style={{ 
-                  padding: "5px 10px", 
-                  margin: "5px 0", 
-                  backgroundColor: "#fff", 
+              <div
+                key={index}
+                style={{
+                  padding: "5px 10px",
+                  margin: "5px 0",
+                  backgroundColor: "#fff",
                   border: "1px solid #eee",
                   borderRadius: "4px",
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
-                  fontSize: "12px"
+                  fontSize: "12px",
                 }}
               >
                 <span>
-                  📎 {file.originalName} 
+                  📎 {file.originalName}
                   <em style={{ color: "#666", marginLeft: "5px" }}>
                     ({(file.size / 1024).toFixed(1)} KB)
                   </em>
                 </span>
-                <a 
-                  href={`/api/concepts/files/${file.filename}`} 
-                  target="_blank" 
+                <a
+                  href={`/api/concepts/files/${file.filename}`}
+                  target="_blank"
                   rel="noopener noreferrer"
                   style={{ color: "#007bff", textDecoration: "none" }}
                 >
