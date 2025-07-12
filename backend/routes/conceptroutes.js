@@ -5,18 +5,6 @@ const mongoose = require("mongoose"); // For ObjectId validation
 const upload = require("../middleware/upload");
 const path = require("path");
 
-// Get all concepts
-router.get("/", async (req, res) => {
-  try {
-    const concepts = await Concept.find().populate("userId", "name email");
-    res.json(concepts);
-  } catch (error) {
-    res
-      .status(500)
-      .json({ error: "Failed to fetch concepts", details: error.message });
-  }
-});
-
 // Get all concepts and populate user details
 router.get("/user/:userId", async (req, res) => {
   try {
