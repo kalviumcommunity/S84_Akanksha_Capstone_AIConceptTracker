@@ -15,15 +15,15 @@ function App() {
 
   // Check for existing authentication on mount
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    const storedUser = localStorage.getItem('user');
-    
+    const storedToken = localStorage.getItem("token");
+    const storedUser = localStorage.getItem("user");
+
     if (storedToken && storedUser) {
       setToken(storedToken);
       setUser(JSON.parse(storedUser));
-      
+
       // Set default authorization header
-      axios.defaults.headers.common['Authorization'] = `Bearer ${storedToken}`;
+      axios.defaults.headers.common["Authorization"] = `Bearer ${storedToken}`;
     }
     setLoading(false);
   }, []);
@@ -52,22 +52,22 @@ function App() {
   const handleLogin = (userData, userToken) => {
     setUser(userData);
     setToken(userToken);
-    axios.defaults.headers.common['Authorization'] = `Bearer ${userToken}`;
+    axios.defaults.headers.common["Authorization"] = `Bearer ${userToken}`;
   };
 
   const handleRegister = (userData, userToken) => {
     setUser(userData);
     setToken(userToken);
-    axios.defaults.headers.common['Authorization'] = `Bearer ${userToken}`;
+    axios.defaults.headers.common["Authorization"] = `Bearer ${userToken}`;
   };
 
   const handleLogout = () => {
     setUser(null);
     setToken(null);
     setConcepts([]);
-    delete axios.defaults.headers.common['Authorization'];
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    delete axios.defaults.headers.common["Authorization"];
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
   };
 
   // Handle form submission from ConceptForm
@@ -114,14 +114,16 @@ function App() {
   // Show loading spinner while checking authentication
   if (loading) {
     return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '100vh',
-        backgroundColor: '#ffffff',
-      }}>
-        <div style={{ textAlign: 'center', color: '#000000' }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100vh",
+          backgroundColor: "#ffffff",
+        }}
+      >
+        <div style={{ textAlign: "center", color: "#000000" }}>
           <h2>Loading...</h2>
         </div>
       </div>
@@ -133,18 +135,20 @@ function App() {
     return (
       <>
         <Navbar user={user} onLogout={handleLogout} />
-        <div style={{
-          minHeight: '100vh',
-          backgroundColor: '#ffffff',
-          padding: '20px',
-        }}>
+        <div
+          style={{
+            minHeight: "100vh",
+            backgroundColor: "#ffffff",
+            padding: "20px",
+          }}
+        >
           {showLogin ? (
-            <Login 
+            <Login
               onLogin={handleLogin}
               onSwitchToRegister={() => setShowLogin(false)}
             />
           ) : (
-            <Register 
+            <Register
               onRegister={handleRegister}
               onSwitchToLogin={() => setShowLogin(true)}
             />

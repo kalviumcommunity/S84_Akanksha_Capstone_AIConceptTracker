@@ -103,47 +103,52 @@ router.put("/:id", authenticateToken, async (req, res) => {
 });
 
 // Upload file to a concept (protected route)
-router.post("/:id/upload", authenticateToken, upload.single("file"), async (req, res) => {
-  try {
-    const conceptId = req.params.id;
+router.post(
+  "/:id/upload",
+  authenticateToken,
+  upload.single("file"),
+  async (req, res) => {
+    try {
+      const conceptId = req.params.id;
 
-    if (!mongoose.Types.ObjectId.isValid(conceptId)) {
-      return res.status(400).json({ error: "Invalid concept ID" });
+      if (!mongoose.Types.ObjectId.isValid(conceptId)) {
+        return res.status(400).json({ error: "Invalid concept ID" });
+      }
+
+      if (!req.file) {
+        return res.status(400).json({ error: "No file uploaded" });
+      }
+
+      const concept = await Concept.findById(conceptId);
+      if (!concept) {
+        return res.status(404).json({ error: "Concept not found" });
+      }
+
+      // Add file info to concept
+      const fileInfo = {
+        filename: req.file.filename,
+        originalName: req.file.originalname,
+        mimetype: req.file.mimetype,
+        size: req.file.size,
+        url: `/uploads/${req.file.filename}`,
+        uploadDate: new Date(),
+      };
+
+      concept.attachments.push(fileInfo);
+      await concept.save();
+
+      res.status(200).json({
+        message: "File uploaded successfully",
+        file: fileInfo,
+        concept: concept,
+      });
+    } catch (error) {
+      res
+        .status(500)
+        .json({ error: "Failed to upload file", details: error.message });
     }
-
-    if (!req.file) {
-      return res.status(400).json({ error: "No file uploaded" });
-    }
-
-    const concept = await Concept.findById(conceptId);
-    if (!concept) {
-      return res.status(404).json({ error: "Concept not found" });
-    }
-
-    // Add file info to concept
-    const fileInfo = {
-      filename: req.file.filename,
-      originalName: req.file.originalname,
-      mimetype: req.file.mimetype,
-      size: req.file.size,
-      url: `/uploads/${req.file.filename}`,
-      uploadDate: new Date(),
-    };
-
-    concept.attachments.push(fileInfo);
-    await concept.save();
-
-    res.status(200).json({
-      message: "File uploaded successfully",
-      file: fileInfo,
-      concept: concept,
-    });
-  } catch (error) {
-    res
-      .status(500)
-      .json({ error: "Failed to upload file", details: error.message });
   }
-});
+);
 
 // Get file
 router.get("/files/:filename", (req, res) => {
